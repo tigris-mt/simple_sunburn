@@ -13,7 +13,6 @@ simple_sunburn = {
 
 local function do_damage(player, amount)
     if use_tigris then
-        -- The sun is not ordinary heat damage.
         tigris.damage.apply(player, {sun = amount})
     else
         player:set_hp(player:get_hp() - amount)
@@ -25,7 +24,7 @@ minetest.register_globalstep(function(dtime)
     timer = timer + dtime
     if timer > time then
         for _,player in ipairs(minetest.get_connected_players()) do
-            if minetest.get_node_light(vector.add(player:getpos(), vector.new(0, 1, 0))) == 15 then
+            if minetest.get_node_light(vector.add(player:getpos(), vector.new(0, 1.5, 0))) == minetest.LIGHT_MAX then
                 local damage = math.floor(simple_sunburn.get_damage(player) * (timer / time) + 0.5)
                 do_damage(player, damage)
             end
